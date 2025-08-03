@@ -10,7 +10,7 @@ RUN curl -fsSL https://ollama.com/install.sh | bash
 
 # Install Python deps
 COPY requirements.txt .
-RUN pip3 install -r requirements.txt
+RUN pip3 install -r requirements.txt --break-system-packages
 
 # Copy app
 COPY app.py .
