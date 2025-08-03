@@ -15,11 +15,8 @@ RUN pip3 install -r requirements.txt --break-system-packages
 # Copy app
 COPY app.py .
 
-# Pull model at build time
-RUN ollama pull deepseek-r1:1.5b
-
 # Expose default port
 EXPOSE 7860
 
-# Run API
-CMD ["python3", "app.py"] 
+# Start Ollama server and run API
+CMD ollama serve & sleep 10 && python3 app.py 
