@@ -14,14 +14,14 @@ logger = logging.getLogger(__name__)
 def download_model():
     """Download the model once at startup"""
     try:
-        logger.info("Checking if deepseek-r1:1.5b model is available...")
+        logger.info("Checking if llama2:7b model is available...")
         result = subprocess.run(['ollama', 'list'], capture_output=True, text=True)
-        if 'deepseek-r1:1.5b' not in result.stdout:
-            logger.info("Model not found. Downloading deepseek-r1:1.5b...")
-            subprocess.run(['ollama', 'pull', 'deepseek-r1:1.5b'], check=True)
+        if 'llama2:7b' not in result.stdout:
+            logger.info("Model not found. Downloading llama2:7b...")
+            subprocess.run(['ollama', 'pull', 'llama2:7b'], check=True)
             logger.info("Model downloaded successfully!")
         else:
-            logger.info("Model deepseek-r1:1.5b already available")
+            logger.info("Model llama2:7b already available")
     except Exception as e:
         logger.error(f"Error downloading model: {e}")
         raise e
@@ -35,7 +35,7 @@ def generate():
         try:
             res = requests.post(
                 "http://localhost:11434/api/generate",
-                json={"model": "deepseek-r1:1.5b", "prompt": prompt},
+                json={"model": "llama2:7b", "prompt": prompt},
                 timeout=60
             )
             res.raise_for_status()
@@ -60,7 +60,7 @@ def setup():
     """Endpoint to check model status"""
     try:
         result = subprocess.run(['ollama', 'list'], capture_output=True, text=True)
-        if 'deepseek-r1:1.5b' in result.stdout:
+        if 'llama2:7b' in result.stdout:
             return "Model is ready!"
         else:
             return "Model not found. Please wait for startup to complete.", 503
